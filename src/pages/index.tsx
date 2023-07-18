@@ -18,7 +18,7 @@ import { Footer } from '../components/Footer'
 import Image from 'next/image'
 
 const Index = () => (
-  <Container height="100vh" py="2rem">
+  <Container py="2rem">
     <Box mt="2rem">
       <Image src="/conFIEL-logo.png" width='135' height='135' alt='conFIEL Logo' />
     </Box>
@@ -33,11 +33,11 @@ const Index = () => (
         <ListItem>
           <ListIcon as={CheckCircleIcon} color="red.500" />
           Tu FIEL se instala en tu dispositivo
-        </ListItem>
+          </ListItem>
         <ListItem>
           <ListIcon as={CheckCircleIcon} color="red.500" />
           Comparte acceso sin enviar tu FIEL
-        </ListItem>
+          </ListItem>
       </List>
     </Main>
 
