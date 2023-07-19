@@ -30,7 +30,7 @@ const Index = () => (
     <Main>
       <Text color="text">
         <b>Para personas</b> - Administra tu FIEL de forma segura y permite el acceso a portales de gobierno
-        (e.g. SAT) a terceros de forma segura sin necesidad de compartir tu FIEL.
+        (e.g. SAT) a terceros sin necesidad de compartir tu FIEL.
       </Text>
       <Text color="text">
         <b>Para terceros</b> - Solicita acceso a tus clientes a sus portales de gobierno sin necesidad de guardar la FIEL de contribuyentes
