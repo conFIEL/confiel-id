@@ -8,8 +8,8 @@ import {
   Box,
   Button,
 } from '@chakra-ui/react'
-import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
-import { AiOutlineChrome } from 'react-icons/ai'
+import { CheckCircleIcon } from '@chakra-ui/icons'
+import { IoLogoPwa } from 'react-icons/io5'
 
 import { Hero } from '../components/Hero'
 import { Container } from '../components/Container'
@@ -29,13 +29,28 @@ const Index = () => (
     </ChakraLink>
     <Main>
       <Text color="text">
-        <b>Para personas</b> - Administra tu FIEL de forma segura y permite el acceso a portales de gobierno
-        (e.g. SAT) a terceros de forma segura sin necesidad de compartir tu FIEL.
+        <b>conFIEL ID</b> - Aplicación web optimizada para celular para cargar tu FIEL (e.FIRMA)
+        y guardarla de forma segura en tu celular.
       </Text>
-      <Text color="text">
-        <b>Para terceros</b> - Solicita acceso a tus clientes a sus portales de gobierno sin necesidad de guardar la FIEL de contribuyentes
-        o empresa.
-      </Text>
+
+      <List spacing={3} my={0} color="text">
+        <ListItem>
+          <ListIcon as={CheckCircleIcon} color="red.500" />
+          Tu e.FIRMA permanece en tu celular.
+        </ListItem>
+        <ListItem>
+          <ListIcon as={CheckCircleIcon} color="red.500" />
+          Otorga el acceso a personas de confianza.
+        </ListItem>
+      </List>
+
+      <Button
+        variant='outline'
+        colorScheme='red'
+        aria-label='Instalar extension de Chrome'
+        fontSize='md'
+        leftIcon={<IoLogoPwa />}
+      >Instalar conFIEL ID</Button>
     </Main>
 
     <DarkModeSwitch />

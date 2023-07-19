@@ -8,7 +8,7 @@ import {
   Box,
   Button,
 } from '@chakra-ui/react'
-import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
+import { CheckCircleIcon, TimeIcon } from '@chakra-ui/icons'
 import { AiOutlineChrome } from 'react-icons/ai'
 
 import { Hero } from '../components/Hero'
@@ -29,13 +29,28 @@ const Index = () => (
     </ChakraLink>
     <Main>
       <Text color="text">
-        <b>Para personas</b> - Administra tu FIEL de forma segura y permite el acceso a portales de gobierno
-        (e.g. SAT) a terceros de forma segura sin necesidad de compartir tu FIEL.
+        <b>conFIEL Extension</b> - Aplicación de explorador capaz de generar solicitudes de acceso
+        para usuarios sin necesidad de guardar la FIEL.
       </Text>
-      <Text color="text">
-        <b>Para terceros</b> - Solicita acceso a tus clientes a sus portales de gobierno sin necesidad de guardar la FIEL de contribuyentes
-        o empresa.
-      </Text>
+
+      <List spacing={3} my={0} color="text">
+        <ListItem>
+          <ListIcon as={CheckCircleIcon} color="red.500" />
+          Disponible para acceder el SAT
+        </ListItem>
+        <ListItem>
+          <ListIcon as={TimeIcon} color="red.500" />
+          Proximamente para acceder DIGIPris
+        </ListItem>
+      </List>
+
+      <Button
+        variant='outline'
+        colorScheme='red'
+        aria-label='Instalar extension de Chrome'
+        fontSize='md'
+        leftIcon={<AiOutlineChrome />}
+      >Instalar extension de Chrome</Button>
     </Main>
 
     <DarkModeSwitch />

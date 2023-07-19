@@ -13,7 +13,7 @@ export const CTA = () => (
   >
     <Button
       as={ChakraLink}
-      href="/#"
+      href="/personal"
       variant="outline"
       colorScheme="red"
       rounded="button"
@@ -21,11 +21,11 @@ export const CTA = () => (
       mx={2}
       width="full"
     >
-      Compartir Acceso
+      conFIEL Personal
     </Button>
     <Button
       as={ChakraLink}
-      href="/#"
+      href="/terceros"
       variant="solid"
       colorScheme="red"
       rounded="button"
@@ -33,7 +33,7 @@ export const CTA = () => (
       mx={2}
       width="full"
     >
-      Subir FIEL
+      conFIEL Terceros
     </Button>
   </Container>
 )
