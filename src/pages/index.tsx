@@ -11,22 +11,16 @@ import {
 import { CheckCircleIcon, LinkIcon } from '@chakra-ui/icons'
 import { AiOutlineChrome } from 'react-icons/ai'
 
-import { Hero } from '../components/Hero'
 import { Container } from '../components/Container'
 import { Main } from '../components/Main'
 import { DarkModeSwitch } from '../components/DarkModeSwitch'
 import { CTA } from '../components/CTA'
 import { Footer } from '../components/Footer'
-import Image from 'next/image'
+import { ConFIELLogo } from '../components/conFIELLogo'
 
 const Index = () => (
   <Container py="2rem">
-    <ChakraLink href='/'>
-      <Box mt="2rem">
-        <Image src="/conFIEL-logo.png" width='135' height='135' alt='conFIEL Logo' />
-      </Box>
-      <Hero title='conFIEL' />
-    </ChakraLink>
+    <ConFIELLogo />
     <Main>
       <Text color="text">
         <b>Para personas</b> - Administra tu FIEL de forma segura y permite el acceso a portales de gobierno
