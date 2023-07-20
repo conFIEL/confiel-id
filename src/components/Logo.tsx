@@ -5,7 +5,7 @@ import {
 import Image from 'next/image';
 import { Hero } from './Hero';
 
-export const ConFIELLogo = () => {
+export const Logo = () => {
   return (
     <ChakraLink href='/'>
       <Box mt="2rem" textAlign='center'>

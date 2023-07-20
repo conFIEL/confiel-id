@@ -16,12 +16,12 @@ import { Main } from '../components/Main'
 import { DarkModeSwitch } from '../components/DarkModeSwitch'
 import { CTA } from '../components/CTA'
 import { Footer } from '../components/Footer'
-import { ConFIELLogo } from '../components/conFIELLogo'
+import { Logo } from '../components/Logo'
 import { TercerosIntroContent } from '../components/TercerosIntroContent'
 
 const Index = () => (
   <Container py="2rem">
-    <ConFIELLogo />
+    <Logo />
     <Main>
       <TercerosIntroContent />
     </Main>

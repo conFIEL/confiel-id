@@ -16,11 +16,11 @@ import { Main } from '../components/Main'
 import { DarkModeSwitch } from '../components/DarkModeSwitch'
 import { CTA } from '../components/CTA'
 import { Footer } from '../components/Footer'
-import { ConFIELLogo } from '../components/conFIELLogo'
+import { Logo } from '../components/Logo'
 
 const Index = () => (
   <Container py="2rem">
-    <ConFIELLogo />
+    <Logo />
     <Main>
       <Text color="text">
         <b>Para personas</b> - Administra tu FIEL de forma segura y permite el acceso a portales de gobierno
