@@ -12,7 +12,7 @@ const withNextJSObfuscatorPlugin = require("nextjs-obfuscator")(obfuscatorOption
 
 /** @type {import('next').NextConfig} */
 module.exports = withNextJSObfuscatorPlugin({
-  productionBrowserSourceMaps: true,
+  productionBrowserSourceMaps: false,
   eslint: {
     ignoreDuringBuilds: true,
   }
