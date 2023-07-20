@@ -131,6 +131,7 @@ export const FIELLoadButton = () => {
             <ModalHeader>Escanear código conFIEL</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
+              <Text fontSize={'xs'} pb="2">El código es generado por la extensión conFIEL-ext en las páginas autorizadas.</Text>
               <Box width="100%" pb="5">
                 <QRScanner setBarcodeValue={setQRScannerValue} />
               </Box>
