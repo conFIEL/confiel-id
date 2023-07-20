@@ -10,6 +10,6 @@ export const FIELPassword = () => {
   const { password } = state;
   const handleChange = (e) => dispatch({ type: 'SET_PASSWORD', payload: e.target.value });
   return (
-    <Input type="password" placeholder="FIEL password" onChange={handleChange} value={password} />
+    <Input type="password" placeholder="Contraseña FIEL" onChange={handleChange} value={password} />
   );
 }

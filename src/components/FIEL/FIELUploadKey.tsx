@@ -31,7 +31,7 @@ export const FIELUploadKey = () => {
   };
 
   return (
-    privateKey ? <p>Loaded private key.</p> : <div>
+    privateKey ? <p>Llave cargada.</p> : <div>
       <Input
         type="file"
         ref={hiddenFileInputKey}
@@ -42,7 +42,7 @@ export const FIELUploadKey = () => {
       <Button
         onClick={handleClickKey}
         aria-label="file upload"
-      >Upload .key</Button>
+      >Subir .key</Button>
     </div>
   )
 }

@@ -30,7 +30,7 @@ export const FIELUploadCer = () => {
     hiddenFileInputCer.current.click();
   };
   return (
-    certificate ? <p>Loaded certificate.</p> : <div>
+    certificate ? <p>Certificado cargado.</p> : <div>
       <Input
         type="file"
         ref={hiddenFileInputCer}
@@ -41,7 +41,7 @@ export const FIELUploadCer = () => {
       <Button
         onClick={handleClickCer}
         aria-label="file upload"
-      >Upload .cer</Button>
+      >Subir .cer</Button>
     </div>
   )
 }
