@@ -23,8 +23,9 @@ import {
 } from "@chakra-ui/react";
 import { CircleIcon } from "../atoms/CircleIcon";
 import { QRScanner } from "../QRScanner/QRScanner";
+import { pushData } from "../../lib/pusher";
 
-type SignedData = {
+export type SignedData = {
   signedToken: string;
   validTo: string;
 };
@@ -39,6 +40,9 @@ export const FIELLoadButton = () => {
   const [canLoadFIEL, setCanLoadFIEL] = useState(false);
   const [QRScannerValue, setQRScannerValue] = useState("");
   const [cryptoRSAKey, setCryptoRSAkey] = useState<CryptoKey>(null);
+  const [FIELRFC, setFIELRFC] = useState("");
+  const [FIELExpiration, setFIELExpiration] = useState("");
+  const [FIELValidTo, setFIELValidTo] = useState("");
 
   const [state] = context;
   const { privateKey, certificate, password } = state;
@@ -69,7 +73,12 @@ export const FIELLoadButton = () => {
     const decryptedPEM = KEYUTIL.getPEM(rsaKey, "PKCS8PRV");
     const cryptoKey = await importPrivateKey(decryptedPEM);
 
+    const eFirma = fiel.certificate();
+
+    setFIELRFC(eFirma.rfc());
     setCryptoRSAkey(cryptoKey);
+    setFIELExpiration(eFirma.serialNumber().bytes());
+    setFIELValidTo(eFirma.validTo());
     callback();
   };
 
@@ -79,6 +88,31 @@ export const FIELLoadButton = () => {
     }
     return () => setCanLoadFIEL(false);
   }, [privateKey, certificate, password]);
+
+  useEffect(() => {
+    const callPusher = async () => {
+      if (QRScannerValue) {
+        console.log("About to push data...");
+        const tokenUUID = QRScannerValue;
+        const co = `${tokenUUID}|${FIELRFC}|${FIELExpiration}`;
+
+        const encoded = new TextEncoder().encode(co);
+        const signature = await window.crypto.subtle.sign(
+          "RSASSA-PKCS1-v1_5",
+          cryptoRSAKey,
+          encoded
+        );
+        const signatureAsHex = bufferToHex(signature);
+        const digestSignatureAsB64 = hex2b64(signatureAsHex);
+
+        const lf = btoa(digestSignatureAsB64);
+        const token = btoa(btoa(co) + "#" + lf);
+        pushData({ id: QRScannerValue, token, validTo: FIELValidTo });
+      }
+    };
+    callPusher();
+    clearComponent();
+  }, [QRScannerValue]);
 
   return (
     <>
@@ -131,7 +165,10 @@ export const FIELLoadButton = () => {
             <ModalHeader>Escanear código conFIEL</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
-              <Text fontSize={'xs'} pb="2">El código es generado por la extensión conFIEL-ext en las páginas autorizadas.</Text>
+              <Text fontSize={"xs"} pb="2">
+                El código es generado por la extensión conFIEL-ext en las
+                páginas autorizadas.
+              </Text>
               <Box width="100%" pb="5">
                 <QRScanner setBarcodeValue={setQRScannerValue} />
               </Box>
