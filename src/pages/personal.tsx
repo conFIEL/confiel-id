@@ -8,6 +8,7 @@ import { Footer } from '../components/Footer'
 import { Logo } from '../components/Logo'
 import { PersonalIntroContent } from '../components/PersonalIntroContent'
 import { useState } from 'react'
+import FIEL from '../components/FIEL/FIEL'
 
 const Personal = () => {
   const [canLoadViaPage, setCanLoadViaPage] = useState(false);
@@ -15,8 +16,9 @@ const Personal = () => {
     <Container py="2rem">
       <Logo />
       <Main>
-        {canLoadViaPage ? <>Load FIEL here</> : <PersonalIntroContent />}
-        <Text onClick={() => setCanLoadViaPage(!canLoadViaPage)} fontSize={'sm'} cursor={'pointer'} color="red.500" textDecoration={'underline'}>o utiliza la página web para preparar conFIEL ID</Text>
+        {canLoadViaPage ? <FIEL /> : <PersonalIntroContent />}
+        <Text onClick={() => setCanLoadViaPage(!canLoadViaPage)} fontSize={'sm'} cursor={'pointer'} color="red.500" textDecoration={'underline'}>
+          {canLoadViaPage ? 'regresar a la pagina de instalación' : 'o utiliza la página web para preparar conFIEL ID'}</Text>
       </Main>
 
       <DarkModeSwitch />
