@@ -13,7 +13,6 @@ const pusher = new Pusher.default({
   key,
   secret,
   cluster,
-  useTLS: true
 })
 
 type Response = {
@@ -27,7 +26,6 @@ export default function handler(
 ) {
 
   const { body: { id, token, validTo } } = req;
-  console.log('token, validTo', token, validTo);
   pusher.trigger(id, 'sign', JSON.stringify({ token, validTo }));
   res.json({ status: 'ok', message: id });
 }
