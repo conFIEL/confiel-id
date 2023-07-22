@@ -13,6 +13,7 @@ const pusher = new Pusher.default({
   key,
   secret,
   cluster,
+  useTLS: true
 })
 
 type Response = {
@@ -20,12 +21,12 @@ type Response = {
   message: string
 }
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Response>
 ) {
 
   const { body: { id, token, validTo } } = req;
-  pusher.trigger(id, 'sign', JSON.stringify({ token, validTo }));
+  await pusher.trigger(id, 'sign', JSON.stringify({ token, validTo }));
   res.json({ status: 'ok', message: id });
 }
