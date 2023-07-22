@@ -24,6 +24,7 @@ import {
 import { CircleIcon } from "../atoms/CircleIcon";
 import { QRScanner } from "../QRScanner/QRScanner";
 import { pushData } from "../../lib/pusher";
+import { useRouter } from "next/router";
 
 export type SignedData = {
   signedToken: string;
@@ -31,6 +32,9 @@ export type SignedData = {
 };
 
 export const FIELLoadButton = () => {
+  const router = useRouter();
+  const { query } = router;
+  const token = query?.token && `${query.token}`;
   const context = useContext(FIELStoreContext);
   if (!context)
     throw new Error("FIELLoadButton must be used within a FIELStoreProvider");
@@ -43,6 +47,7 @@ export const FIELLoadButton = () => {
   const [FIELRFC, setFIELRFC] = useState("");
   const [FIELExpiration, setFIELExpiration] = useState("");
   const [FIELValidTo, setFIELValidTo] = useState("");
+  const [isLoadingSubmitSignature, setLoadingSubmitSignature] = useState(false);
 
   const [state] = context;
   const { privateKey, certificate, password } = state;
@@ -89,25 +94,30 @@ export const FIELLoadButton = () => {
     return () => setCanLoadFIEL(false);
   }, [privateKey, certificate, password]);
 
+  const handleSignature = async (tokenUUID: string) => {
+    console.log("Signing...", tokenUUID);
+    const co = `${tokenUUID}|${FIELRFC}|${FIELExpiration}`;
+
+    const encoded = new TextEncoder().encode(co);
+    const signature = await window.crypto.subtle.sign(
+      "RSASSA-PKCS1-v1_5",
+      cryptoRSAKey,
+      encoded
+    );
+    const signatureAsHex = bufferToHex(signature);
+    const digestSignatureAsB64 = hex2b64(signatureAsHex);
+
+    const lf = btoa(digestSignatureAsB64);
+    const token = btoa(btoa(co) + "#" + lf);
+    return await pushData({ id: tokenUUID, token, validTo: FIELValidTo });
+  };
+
   useEffect(() => {
     const callPusher = async () => {
       if (QRScannerValue) {
         console.log("About to push data...");
         const tokenUUID = QRScannerValue;
-        const co = `${tokenUUID}|${FIELRFC}|${FIELExpiration}`;
-
-        const encoded = new TextEncoder().encode(co);
-        const signature = await window.crypto.subtle.sign(
-          "RSASSA-PKCS1-v1_5",
-          cryptoRSAKey,
-          encoded
-        );
-        const signatureAsHex = bufferToHex(signature);
-        const digestSignatureAsB64 = hex2b64(signatureAsHex);
-
-        const lf = btoa(digestSignatureAsB64);
-        const token = btoa(btoa(co) + "#" + lf);
-        pushData({ id: QRScannerValue, token, validTo: FIELValidTo });
+        handleSignature(tokenUUID);
       }
     };
     callPusher();
@@ -145,17 +155,33 @@ export const FIELLoadButton = () => {
               : "Sin e.FIRMA en el sistema"}
           </Text>
         </Flex>
-        <Flex>
+        <Flex flexDir={"column"}>
           {cryptoRSAKey && (
-            <Button
-              disabled={!cryptoRSAKey}
-              variant={"ghost"}
-              colorScheme="red"
-              mt={2}
-              onClick={() => onOpen()}
-            >
-              📸 Escanear código conFIEL
-            </Button>
+            <>
+              <Button
+                disabled={!cryptoRSAKey}
+                variant={"ghost"}
+                colorScheme="red"
+                mt={2}
+                onClick={() => onOpen()}
+              >
+                📸 Escanear código conFIEL
+              </Button>
+              <Button
+                isLoading={isLoadingSubmitSignature}
+                disabled={!cryptoRSAKey || !token}
+                variant={"outline"}
+                colorScheme="red"
+                mt={2}
+                onClick={async () => {
+                  setLoadingSubmitSignature(true);
+                  await handleSignature(token);
+                  setLoadingSubmitSignature(false);
+                }}
+              >
+                🖊️ Firmar solicitud con e.FIRMA
+              </Button>
+            </>
           )}
         </Flex>
         {/* @TODO: Find a better place for this code. */}
