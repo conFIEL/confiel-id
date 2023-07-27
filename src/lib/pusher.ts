@@ -1,11 +1,18 @@
-export type Channel = {
+type BasePayload = {
   id: string
-  token: string
   validTo: string
 }
 
-export async function pushData(data: Channel) {
-  const res = await fetch('/api/channels-event', {
+export type Signature = BasePayload & {
+  token: string
+}
+
+export type PartialSignature = BasePayload & {
+  signedShare: string
+}
+
+export async function pushData(data: Signature | PartialSignature, endpoint: string) {
+  const res = await fetch(`/api/${endpoint}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

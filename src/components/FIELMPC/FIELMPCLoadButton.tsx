@@ -3,6 +3,7 @@ import { FIELMPCStoreContext } from "./FIELMPCContext";
 import { useContext, useEffect, useState } from "react";
 import { signWithShare } from "../../lib/fiel-mpc";
 import { CircleIcon } from "../atoms/CircleIcon";
+import { pushData } from "../../lib/pusher";
 
 type FragmentKey = {
   keyShare: string;
@@ -26,14 +27,16 @@ export const FIELMPCLoadButton = () => {
 
   const handleSignShare = async () => {
     console.log("Signing...");
-    const partialSignature = await signWithShare({
+    const signedShare = await signWithShare({
       keyShare,
       rfc,
       certificateId,
       tokenUUID,
       pubKey,
     });
-    console.log("Partial Signature", partialSignature);
+    console.log("Partial Signature", signedShare);
+    //@TODO: Fix hardcoded value for validTo
+    return await pushData({ id: tokenUUID, signedShare, validTo: '261025214030Z' }, 'partial-sign');
   };
 
   const loadFragmentKey = (fragmentKey: FragmentKey) => {

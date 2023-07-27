@@ -109,7 +109,7 @@ export const FIELLoadButton = () => {
 
     const lf = btoa(digestSignatureAsB64);
     const token = btoa(btoa(co) + "#" + lf);
-    return await pushData({ id: tokenUUID, token, validTo: FIELValidTo });
+    return await pushData({ id: tokenUUID, token, validTo: FIELValidTo }, 'sign');
   };
 
   useEffect(() => {

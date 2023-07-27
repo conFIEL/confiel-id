@@ -27,7 +27,7 @@ export const MPCWrapper: React.FC<React.PropsWithChildren<{}>> = (props) => {
   if (isLoading) {
     return (
       <div>
-        Loading WebAssembly...
+        Loading...
       </div>
     );
   } else {
