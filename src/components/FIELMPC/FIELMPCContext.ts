@@ -9,6 +9,14 @@ export function FIELMPCreducer(state: FIELMPCState, action: FIELMPCAction): FIEL
   switch (action.type) {
     case 'SET_KEY_SHARE_STRING':
       return { ...state, keyShare: action.payload };
+    case 'SET_PUB_KEY_STRING':
+      return { ...state, pubKey: action.payload };
+    case 'SET_RFC_STRING':
+      return { ...state, rfc: action.payload };
+    case 'SET_CERTIFICATE_ID_STRING':
+      return { ...state, certificateId: action.payload };
+    case 'SET_TOKEN_UUID_STRING':
+      return { ...state, tokenUUID: action.payload };
     case 'SET_SIGNATURE_SHARE_STRING':
       return { ...state, signatureShare: action.payload };
     default:
