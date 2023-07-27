@@ -15,6 +15,8 @@ export function FIELMPCreducer(state: FIELMPCState, action: FIELMPCAction): FIEL
       return { ...state, rfc: action.payload };
     case 'SET_CERTIFICATE_ID_STRING':
       return { ...state, certificateId: action.payload };
+    case 'SET_HAS_FRAGMENT_KEY_BOOLEAN':
+        return { ...state, hasFragmentKey: action.payload };
     case 'SET_TOKEN_UUID_STRING':
       return { ...state, tokenUUID: action.payload };
     case 'SET_SIGNATURE_SHARE_STRING':

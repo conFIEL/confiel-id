@@ -1,8 +1,13 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { FIELMPCStoreContext } from "./FIELMPCContext";
 import { Input, Text } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 export const FIELMPCTokenUUIDInput = () => {
+  const router = useRouter();
+  const { query } = router;
+  const token = query?.token && `${query.token}`;
+  
   const context = useContext(FIELMPCStoreContext);
   if (!context)
     throw new Error(
@@ -13,6 +18,10 @@ export const FIELMPCTokenUUIDInput = () => {
   const { tokenUUID } = state;
   const handleChange = (e) =>
     dispatch({ type: "SET_TOKEN_UUID_STRING", payload: e.target.value });
+
+  useEffect(() => {
+    token && dispatch({ type: "SET_TOKEN_UUID_STRING", payload: token });
+  }, [token])
   return (
     <>
       <Input

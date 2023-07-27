@@ -11,12 +11,13 @@ import { MPCWrapper } from "./MPCWrapper/MPCWrapper";
 
 export const FIELMPC = () => {
   const [state, dispatch] = useReducer(FIELMPCreducer, {
-    keyShare: '',
-    pubKey: '',
-    rfc: '',
-    tokenUUID: '',
-    certificateId: '',
+    keyShare: "",
+    pubKey: "",
+    rfc: "",
+    tokenUUID: "",
+    certificateId: "",
     signatureShare: null,
+    hasFragmentKey: false,
   });
   return (
     <Box>
@@ -25,16 +26,20 @@ export const FIELMPC = () => {
           <Text fontFamily={"heading"} as="h3" mb="2">
             Firmar con fragmento de FIEL
           </Text>
-          <FIELMPCKeyShareInput />
-          <FIELMPCPubKeyInput />
-          <SimpleGrid columns={2} spacing={2}>
-            <FIELMPCRFCInput />
-            <FIELMPCCertificateIdInput />
-          </SimpleGrid>
-          <Text py="2" fontSize={"xs"}>
-            Copia la RFC y el ID del certificado de la FIEL original.
-          </Text>
-          <FIELMPCTokenUUIDInput />
+          {!state.hasFragmentKey && (
+            <>
+              <FIELMPCKeyShareInput />
+              <FIELMPCPubKeyInput />
+              <SimpleGrid columns={2} spacing={2}>
+                <FIELMPCRFCInput />
+                <FIELMPCCertificateIdInput />
+              </SimpleGrid>
+              <Text py="2" fontSize={"xs"}>
+                Copia la RFC y el ID del certificado de la FIEL original.
+              </Text>
+            </>
+          )}
+          {state.hasFragmentKey && <FIELMPCTokenUUIDInput />}
           <FIELMPCLoadButton />
         </FIELMPCStoreContext.Provider>
       </MPCWrapper>
