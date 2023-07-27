@@ -1,7 +1,13 @@
 import './wasm_exec.js';
-import './wasmTypes.d.ts';
 
 import React, { useEffect } from 'react';
+
+declare global {
+  export interface Window {
+      Go: any;
+      signShare: (keyShare: string, pubKey: string, payload: string) => string
+  }
+}
 
 async function loadWasm(): Promise<void> {
   const goWasm = new window.Go();
