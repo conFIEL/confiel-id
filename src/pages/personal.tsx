@@ -10,6 +10,7 @@ import { Logo } from "../components/Logo";
 import { PersonalIntroContent } from "../components/PersonalIntroContent";
 import { useEffect, useState } from "react";
 import FIEL from "../components/FIEL/FIEL";
+import { FIELMPC } from "../components/FIELMPC/FIELMPC";
 
 type ClientInfo = {
   url: string;
@@ -74,7 +75,11 @@ const Personal = () => {
             )}
           </Box>
         )}
-        {canLoadViaPage ? <FIEL /> : <PersonalIntroContent />}
+        {canLoadViaPage ?
+        <>
+          <FIEL />
+          <FIELMPC />
+        </> : <PersonalIntroContent />}
         <Text
           onClick={() => setCanLoadViaPage(!canLoadViaPage)}
           fontSize={"sm"}

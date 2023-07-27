@@ -4,7 +4,7 @@ import { FIELPassword } from "./FIELPassword";
 import { FIELUploadCer } from "./FIELUploadCer";
 import { FIELUploadKey } from "./FIELUploadKey";
 import { FIELStoreContext, FIELreducer } from "./FIELContext";
-import { Box, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Box, Flex, SimpleGrid, Text } from "@chakra-ui/react";
 
 function FIEL() {
   const [state, dispatch] = useReducer(FIELreducer, {
@@ -14,8 +14,9 @@ function FIEL() {
   });
   return (
     <Flex justifyContent={'center'}>
-      <Box >
+      <Box mb="5">
         <FIELStoreContext.Provider value={[state, dispatch]}>
+          <Text fontFamily={'heading'} as="h3">Subir FIEL al sistema</Text>
           <SimpleGrid columns={2} p="2" spacing={'2'}>
             <FIELUploadKey />
             <FIELUploadCer />

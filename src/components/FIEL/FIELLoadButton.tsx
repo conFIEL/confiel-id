@@ -139,7 +139,7 @@ export const FIELLoadButton = () => {
           setTimeout(() => setLoadingFiel(false), 10000);
         }}
       >
-        Load FIEL
+        Cargar FIEL
       </Button>
       <Flex
         justifyContent={"center"}
