@@ -1,16 +1,5 @@
-import {
-  Link as ChakraLink,
-  Text,
-  Code,
-  List,
-  ListIcon,
-  ListItem,
-  Box,
-  Button,
-  Flex,
-} from "@chakra-ui/react";
-import { CheckCircleIcon, LinkIcon, SettingsIcon } from "@chakra-ui/icons";
-import { AiOutlineChrome } from "react-icons/ai";
+import { Text, Flex, SimpleGrid } from "@chakra-ui/react";
+import { DeleteIcon, SettingsIcon } from "@chakra-ui/icons";
 
 import { Container } from "../components/Container";
 import { Main } from "../components/Main";
@@ -20,12 +9,16 @@ import { Footer } from "../components/Footer";
 import { Logo } from "../components/Logo";
 import { FIELStatus } from "../components/FIEL/FIELStatus";
 import { loadSystemDemoFIEL } from "../lib/fiel-mock";
+import { useFIELStore } from "../stores/FIEL";
 
 const Index = () => {
+  const credential = useFIELStore((state) => state.credential);
+  const loadCredential = useFIELStore((state) => state.loadCredential);
+  const resetCredential = useFIELStore((state) => state.resetCredential);
   const loadDemoFIELHandler = async () => {
     const fiel = await loadSystemDemoFIEL();
-    console.log("FIEL", fiel);
-  }
+    loadCredential(fiel);
+  };
   return (
     <Container py="2rem">
       <Logo />
@@ -40,10 +33,35 @@ const Index = () => {
           de gobierno sin necesidad de guardar la FIEL de contribuyentes o
           empresa.
         </Text>
-        <Flex gap="2" justify={"center"} align={"center"} cursor={"pointer"}>
-          <SettingsIcon boxSize={4} />
-          <Text fontSize={"md"} onClick={() => loadDemoFIELHandler()}> Load demo FIEL into system.</Text>
-        </Flex>
+        <SimpleGrid columns={1}>
+          {!credential ? (
+            <Flex
+              gap="2"
+              justify={"center"}
+              align={"center"}
+              cursor={"pointer"}
+            >
+              <SettingsIcon boxSize={3} />
+              <Text fontSize={"xs"} onClick={() => loadDemoFIELHandler()}>
+                {" "}
+                Load demo FIEL into system.
+              </Text>
+            </Flex>
+          ) : (
+            <Flex
+              gap="2"
+              justify={"center"}
+              align={"center"}
+              cursor={"pointer"}
+            >
+              <DeleteIcon boxSize={3} />
+              <Text fontSize={"xs"} onClick={() => resetCredential()}>
+                {" "}
+                Remove demo FIEL from system.
+              </Text>
+            </Flex>
+          )}
+        </SimpleGrid>
       </Main>
       <FIELStatus />
       <DarkModeSwitch />
