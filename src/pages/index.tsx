@@ -10,6 +10,7 @@ import { Logo } from "../components/Logo";
 import { FIELStatus } from "../components/FIEL/FIELStatus";
 import { loadSystemDemoFIEL } from "../lib/fiel-mock";
 import { useFIELStore } from "../stores/FIEL";
+import { PaymentOrderStatus } from "../components/PaymentOrder/PaymentOrderStatus";
 
 const Index = () => {
   const credential = useFIELStore((state) => state.credential);
@@ -64,6 +65,7 @@ const Index = () => {
         </SimpleGrid>
       </Main>
       <FIELStatus />
+      <PaymentOrderStatus />
       <DarkModeSwitch />
       <Footer>
         <Text fontSize="sm" fontFamily="mono">
