@@ -11,6 +11,7 @@ import { FIELStatus } from "../components/FIEL/FIELStatus";
 import { loadSystemDemoFIEL } from "../lib/fiel-mock";
 import { useFIELStore } from "../stores/FIEL";
 import { PaymentOrderStatus } from "../components/PaymentOrder/PaymentOrderStatus";
+import { FIELWalletStatus } from "../components/FIELWallet/FIELWalletStatus";
 
 const Index = () => {
   const credential = useFIELStore((state) => state.credential);
@@ -66,6 +67,7 @@ const Index = () => {
       </Main>
       <FIELStatus />
       <PaymentOrderStatus />
+      <FIELWalletStatus />
       <DarkModeSwitch />
       <Footer>
         <Text fontSize="sm" fontFamily="mono">
