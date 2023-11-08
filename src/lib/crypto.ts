@@ -75,7 +75,7 @@ export async function encryptPlaintext(
       length: 256,
     },
     kdfparams: {
-      salt: crypto.getRandomValues(new Uint8Array(16)).toString(),
+      salt: 'conFIEL',
       iterations: 100000,
       hash: "SHA-256",
     },
@@ -105,7 +105,7 @@ export async function encryptPlaintext(
     ["encrypt"],
   );
 
-  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const iv = new Uint8Array([0,1,2,3,4,5,6,7,8,9,10,11]);
   const encryptedContent = await crypto.subtle.encrypt(
     {
       name: cryptoConfig.cipherparams.name,
