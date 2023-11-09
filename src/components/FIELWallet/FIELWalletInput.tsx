@@ -16,14 +16,14 @@ export const FIELWalletInput = ({
   setPin,
   setCanGenerateWallet,
 }: {
-  email: string,
-  pin: string,
-  setPin: (pin: string) => void,
-  setCanGenerateWallet: (canGenerateWallet: boolean) => void,
+  email: string;
+  pin: string;
+  setPin: (pin: string) => void;
+  setCanGenerateWallet: (canGenerateWallet: boolean) => void;
 }) => {
   useEffect(() => {
     setCanGenerateWallet(false);
-    pin.length == 6 && setCanGenerateWallet(true)
+    pin.length == 6 && setCanGenerateWallet(true);
   }, [pin]);
   return (
     <Flex flexDir={"column"} gap="4">
@@ -47,7 +47,8 @@ export const FIELWalletInput = ({
           </PinInput>
         </HStack>
         <FormHelperText>
-          Your pin is fixed to your wallet and can not be changed.
+          Your pin is used to derive a unique wallet and can not be changed.
+          Ensure you write it down to load the same wallet everytime.
         </FormHelperText>
       </FormControl>
     </Flex>

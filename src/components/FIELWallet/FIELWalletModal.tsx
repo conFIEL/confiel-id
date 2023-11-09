@@ -16,6 +16,7 @@ import { useFIELStore } from "../../stores/FIEL";
 import { useState } from "react";
 import { generateXPRLWallet } from "../../lib/xrpl";
 import { useFIELWalletStore } from "../../stores/FIELWallet";
+import { FIELWalletInfo } from "./FIELWalletInfo";
 
 export const FIELWalletModal = ({
   isOpen,
@@ -47,7 +48,7 @@ export const FIELWalletModal = ({
           <ModalBody>
             <Box mb="4">
               {wallet ? (
-                <Code>{wallet.address}</Code>
+                <FIELWalletInfo address={wallet.address} />
               ) : (
                 "No wallet has been found"
               )}
@@ -71,7 +72,7 @@ export const FIELWalletModal = ({
               colorScheme="red"
               variant="outline"
             >
-              Generate Wallet
+              Load Wallet
             </Button>
           </ModalFooter>
         </ModalContent>

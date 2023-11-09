@@ -1,7 +1,13 @@
 import { btoe } from "rfc1751.js";
 import { Credential, SignatureAlgorithm } from "@nodecfdi/credentials";
 import { encryptPlaintext } from "./crypto";
-import { Wallet } from "xrpl";
+import { Client, Wallet, dropsToXrp } from "xrpl";
+import { RESERVE_FUNDING_AMOUNT } from "../constants/xrpl";
+
+export type BalanceResponse = {
+  status: 'ok' | 'err'
+  balance: string
+}
 
 export const generateXPRLWallet = async (FIEL: Credential, email: string, pin: string, derivationPath = "0/0/1") => {
   const signatureSeed = FIEL.sign(derivationPath, SignatureAlgorithm.SHA1);
@@ -17,3 +23,25 @@ export const generateXPRLWallet = async (FIEL: Credential, email: string, pin: s
   });
   return wallet;
 };
+
+export const xrpldGetBalance = async (xrpClient: Client, address: string, noReserve?: boolean): Promise<BalanceResponse> => {
+  return xrpClient
+    .request({
+      command: "account_info",
+      account: address,
+      ledger_index: "validated",
+    })
+    .then((walletResponse) => {
+      const balance = dropsToXrp(
+        Number(walletResponse.result.account_data.Balance) - (noReserve ? 0 : RESERVE_FUNDING_AMOUNT)
+      );
+      return ({ status: 'ok', balance } as BalanceResponse);
+    })
+    .catch((err) => {
+      console.error(err);
+      return ({
+        status: 'err',
+        balance: '-1'
+      } as BalanceResponse);
+    });
+}
