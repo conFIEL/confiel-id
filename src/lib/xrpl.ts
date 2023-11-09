@@ -24,6 +24,18 @@ export const generateXPRLWallet = async (FIEL: Credential, email: string, pin: s
   return wallet;
 };
 
+export const requestFundsFromFaucet = async (address: string) => {
+  await fetch("https://faucet.altnet.rippletest.net/accounts", {
+    "headers": {
+      "content-type": "application/json; charset=UTF-8",
+    },
+    "body": JSON.stringify({ destination: address, memos: [{ data: "xrpl.org-faucet" }] }),
+    "method": "POST",
+    "mode": "cors",
+    "credentials": "omit"
+  });
+}
+
 export const xrpldGetBalance = async (xrpClient: Client, address: string, noReserve?: boolean): Promise<BalanceResponse> => {
   return xrpClient
     .request({
