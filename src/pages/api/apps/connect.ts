@@ -33,13 +33,13 @@ export default async function handler(
   res: NextApiResponse<Response>
 ) {
   try {
-    const { body: { appId: data, certificate: certificateAsPEM, signature: signatureAsBase64 } } = req;
+    const { body: { appId: data, certificate: certificateAsPEM, signature: signatureAsBase64, walletAddress } } = req;
     const sig = new KJUR.crypto.Signature({ alg: SignatureAlgorithm.SHA256 });
     sig.init(certificateAsPEM);
     sig.updateString(data);
     const isValid = sig.verify(signatureAsBase64);
     if (isValid) {
-      await pusher.trigger(appId, 'connect', JSON.stringify({ message: "Hello" }));
+      await pusher.trigger(data, 'connect', JSON.stringify({ message: { walletAddress } }));
       return res.json({ status: 'ok', message: `Connection to app ${data} successful` });
     } else {
       return res.json({ status: 'error', error: 'Invalid signature, connection rejected' })

@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { Button, Flex, Text } from "@chakra-ui/react";
+import { Alert, AlertIcon, Button, Flex, Text } from "@chakra-ui/react";
 import { useFIELStore } from "../../stores/FIEL";
 import { SignatureAlgorithm } from "@nodecfdi/credentials";
 import { abbreviate } from "../../helpers/strings";
+import { useFIELWalletStore } from "../../stores/FIELWallet";
 
 export const FIELWalletApp = () => {
   const router = useRouter();
   const { isReady, query } = router;
   const [appId, setAppId] = useState("");
   const credential = useFIELStore((state) => state.credential);
+  const wallet = useFIELWalletStore((state) => state.wallet);
 
   useEffect(() => {
     const { paymentId } = query;
@@ -29,6 +31,7 @@ export const FIELWalletApp = () => {
           appId,
           signature,
           certificate: certificateAsPEM,
+          walletAddress: wallet.address
         }),
         method: "POST",
         headers: {
@@ -41,11 +44,17 @@ export const FIELWalletApp = () => {
 
   return (
     <Flex flexDir={"column"}>
+      {!wallet && <Alert status="warning">
+        <AlertIcon />
+        Unable to accept apps without a wallet loaded.
+      </Alert>}
+
       <Flex
         justifyContent={"space-between"}
         mt="2"
         gap="2"
         flexDirection={"column"}
+        opacity={!wallet && '0.5'}
       >
         <Text fontSize={"md"} fontWeight={"bold"}>
           conFIEL Core
@@ -69,10 +78,9 @@ export const FIELWalletApp = () => {
           </Flex>
         </Flex>
         <Flex gap="2">
-          <Button size={"xs"} onClick={() => handleConnectApp(appId)}>
+          <Button isDisabled={!wallet} size={"xs"} onClick={() => handleConnectApp(appId)}>
             Connect
           </Button>
-          <Button size={"xs"}>Ignore</Button>
         </Flex>
       </Flex>
     </Flex>
