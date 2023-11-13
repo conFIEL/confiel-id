@@ -22,6 +22,7 @@ import { useState } from "react";
 import { generateXPRLWallet, requestFundsFromFaucet } from "../../lib/xrpl";
 import { useFIELWalletStore } from "../../stores/FIELWallet";
 import { FIELWalletInfo } from "./FIELWalletInfo";
+import { FIELWalletApp } from "./FIELWalletApp";
 
 export const FIELWalletModal = ({
   isOpen,
@@ -64,6 +65,7 @@ export const FIELWalletModal = ({
               <TabList>
                 <Tab>Wallet</Tab>
                 <Tab>Settings</Tab>
+                <Tab>Apps</Tab>
               </TabList>
               <TabPanels>
                 <TabPanel>
@@ -105,6 +107,9 @@ export const FIELWalletModal = ({
                   >
                     Load Wallet
                   </Button>
+                </TabPanel>
+                <TabPanel>
+                  <FIELWalletApp />
                 </TabPanel>
               </TabPanels>
             </Tabs>

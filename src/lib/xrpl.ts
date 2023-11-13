@@ -37,6 +37,10 @@ export const requestFundsFromFaucet = async (address: string) => {
 }
 
 export const xrpldGetBalance = async (xrpClient: Client, address: string, noReserve?: boolean): Promise<BalanceResponse> => {
+  if (!xrpClient) return ({
+    status: 'err',
+    balance: '-1'
+  } as BalanceResponse);
   return xrpClient
     .request({
       command: "account_info",
