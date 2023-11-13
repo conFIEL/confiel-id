@@ -1,4 +1,4 @@
-import { Text, Flex, SimpleGrid } from "@chakra-ui/react";
+import { Text, Flex, SimpleGrid, Button } from "@chakra-ui/react";
 import { DeleteIcon, SettingsIcon } from "@chakra-ui/icons";
 
 import { Container } from "../components/Container";
@@ -17,8 +17,8 @@ const Index = () => {
   const credential = useFIELStore((state) => state.credential);
   const loadCredential = useFIELStore((state) => state.loadCredential);
   const resetCredential = useFIELStore((state) => state.resetCredential);
-  const loadDemoFIELHandler = async () => {
-    const fiel = await loadSystemDemoFIEL();
+  const loadDemoFIELHandler = async (user: string) => {
+    const fiel = await loadSystemDemoFIEL(user);
     loadCredential(fiel);
   };
   return (
@@ -44,9 +44,11 @@ const Index = () => {
               cursor={"pointer"}
             >
               <SettingsIcon boxSize={3} />
-              <Text fontSize={"xs"} onClick={() => loadDemoFIELHandler()}>
+              <Text fontSize={"xs"}>
                 {" "}
-                Load demo FIEL into system.
+                Load demo FIEL into system
+                  <Button ml="2" onClick={() => loadDemoFIELHandler('alice')} size="xs">Alice</Button>
+                  <Button ml="2" onClick={() => loadDemoFIELHandler('bob')} size="xs">Bob</Button>
               </Text>
             </Flex>
           ) : (

@@ -12,14 +12,16 @@ import { useEffect, useState } from "react";
 
 export const FIELWalletInput = ({
   email,
+  rfc,
   pin,
   setPin,
   setCanGenerateWallet,
 }: {
-  email: string;
-  pin: string;
-  setPin: (pin: string) => void;
-  setCanGenerateWallet: (canGenerateWallet: boolean) => void;
+  email: string,
+  rfc: string,
+  pin: string,
+  setPin: (pin: string) => void,
+  setCanGenerateWallet: (canGenerateWallet: boolean) => void,
 }) => {
   useEffect(() => {
     setCanGenerateWallet(false);
@@ -27,6 +29,13 @@ export const FIELWalletInput = ({
   }, [pin]);
   return (
     <Flex flexDir={"column"} gap="4">
+      <FormControl>
+        <FormLabel>RFC</FormLabel>
+        <Input type="text" disabled value={rfc} />
+        <FormHelperText>
+          Your RFC is your unique serial number.
+        </FormHelperText>
+      </FormControl>
       <FormControl>
         <FormLabel>Email address</FormLabel>
         <Input type="email" disabled value={email} />

@@ -1,7 +1,7 @@
 import { Credential } from '@nodecfdi/credentials';
 
 
-export const loadSystemDemoFIEL = async (callback?: () => void, user = "maria"): Promise<Credential> => {
+export const loadSystemDemoFIEL = async (user: string): Promise<Credential> => {
   const blobPrivateKey = await (
     await fetch(`/demo/${user}/private.key`)
   ).arrayBuffer();

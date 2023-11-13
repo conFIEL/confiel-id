@@ -7,7 +7,6 @@ import { FIELWalletModal } from "./FIELWalletModal";
 export const FIELWalletStatus = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const credential = useFIELStore((state) => state.credential);
-  const loadWallet = useFIELWalletStore((state) => state.loadWallet);
 
   return (
     credential && (

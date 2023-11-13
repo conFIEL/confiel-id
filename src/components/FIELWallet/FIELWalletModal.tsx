@@ -18,7 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { FIELWalletInput } from "./FIELWalletInput";
 import { useFIELStore } from "../../stores/FIEL";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { generateXPRLWallet, requestFundsFromFaucet } from "../../lib/xrpl";
 import { useFIELWalletStore } from "../../stores/FIELWallet";
 import { FIELWalletInfo } from "./FIELWalletInfo";
@@ -35,10 +35,12 @@ export const FIELWalletModal = ({
 }) => {
   const credential = useFIELStore((state) => state.credential);
   const loadWallet = useFIELWalletStore((state) => state.loadWallet);
+  const resetWallet = useFIELWalletStore((state) => state.resetWallet);
   const wallet = useFIELWalletStore((state) => state.wallet);
   const [pin, setPin] = useState("");
   const certificate = credential && credential.certificate();
-  const email = certificate && certificate.issuerData("E");
+  const email = certificate && certificate.subjectData("E");
+  const rfc = certificate && certificate.rfc();
   const [canGenerateWallet, setCanGenerateWallet] = useState(false);
   const [isLoadingFaucet, setIsLoadingFaucet] = useState(false);
   const [timestampForReload, setTimestampForReload] = useState(Date.now());
@@ -53,6 +55,9 @@ export const FIELWalletModal = ({
     setIsLoadingFaucet(false);
     setTimestampForReload(Date.now())
   }
+  useEffect(() => {
+    resetWallet();
+  }, [credential])
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
@@ -92,6 +97,7 @@ export const FIELWalletModal = ({
                     <FIELWalletInput
                       setCanGenerateWallet={setCanGenerateWallet}
                       email={email}
+                      rfc={rfc}
                       pin={pin}
                       setPin={setPin}
                     />

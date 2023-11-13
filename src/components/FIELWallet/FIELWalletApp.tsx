@@ -16,7 +16,6 @@ export const FIELWalletApp = () => {
   useEffect(() => {
     const { paymentId } = query;
     if (paymentId) {
-      console.log("Payment ID found", paymentId);
       setAppId(`${paymentId}`);
     }
   }, [isReady]);
