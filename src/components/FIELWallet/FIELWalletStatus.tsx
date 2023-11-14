@@ -7,6 +7,7 @@ import { FIELWalletModal } from "./FIELWalletModal";
 export const FIELWalletStatus = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const credential = useFIELStore((state) => state.credential);
+  const wallet = useFIELWalletStore((state) => state.wallet);
 
   return (
     credential && (
@@ -17,7 +18,7 @@ export const FIELWalletStatus = () => {
         left={16}
         icon={<PiWalletFill />}
         aria-label="Payment Order Status"
-        colorScheme={"gray"}
+        colorScheme={wallet ? "green" : "gray"}
         onClick={() => isOpen ? onClose() : onOpen()}
       />
       <FIELWalletModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />

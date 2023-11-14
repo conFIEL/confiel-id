@@ -12,14 +12,19 @@ export const PaymentOrderStatus = () => {
   const { isReady, query } = router;
   const paymentOrder = usePaymentOrderStore((state) => state.paymentOrder);
   const loadPaymentOrder = usePaymentOrderStore((state) => state.loadPaymentOrder);
+  const loadRecipientAddress = usePaymentOrderStore((state) => state.loadRecipientAddress);
+  const recipientAddress = usePaymentOrderStore((state) => state.recipientAddress);
 
   useEffect(() => {
-    const { paymentOrder: paymentOrderAsBase64EncodedURI } = query;
+    const { paymentOrder: paymentOrderAsBase64EncodedURI, recipientAddress } = query;
     if (paymentOrderAsBase64EncodedURI) {
       const paymentOrderAsBase64 = decodeURIComponent(`${paymentOrderAsBase64EncodedURI}`);
       const paymentOrderAsStringifiedJSON = atob(paymentOrderAsBase64);
       const paymentOrder = JSON.parse(paymentOrderAsStringifiedJSON) as PaymentOrder;
       loadPaymentOrder(paymentOrder);
+    }
+    if (recipientAddress) {
+      loadRecipientAddress(`${recipientAddress}`)
     }
   }, [isReady]);
 
@@ -35,9 +40,9 @@ export const PaymentOrderStatus = () => {
       return;
     }
     toast({
-      title: `${paymentOrder.name} FIEL loaded.`,
-      description: `Description: ${paymentOrder.description}, Amount: ${paymentOrder.amount}`,
-      status: "success",
+      title: `Payment order loaded.`,
+      description: `Product: ${paymentOrder.name}, Description: ${paymentOrder.description}, Amount: ${paymentOrder.amount}. ${recipientAddress ? `Recipient: ${recipientAddress}` : 'Recipient address not confirmed.'}`,
+      status: recipientAddress ? "success" : "warning",
       duration: 9000,
       isClosable: true,
     });
@@ -50,7 +55,7 @@ export const PaymentOrderStatus = () => {
       left={4}
       icon={<PiReceiptFill />}
       aria-label="Payment Order Status"
-      colorScheme={"gray"}
+      colorScheme={recipientAddress ? "green" : "gray"}
       onClick={() => paymentOrderHandler()}
     />
   );
