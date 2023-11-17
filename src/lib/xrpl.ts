@@ -1,8 +1,10 @@
 import { btoe } from "rfc1751.js";
-import { Credential, SignatureAlgorithm } from "@nodecfdi/credentials";
+import { Certificate, Credential, SignatureAlgorithm } from "@nodecfdi/credentials";
 import { encryptPlaintext } from "./crypto";
-import { Client, Wallet, dropsToXrp } from "xrpl";
-import { RESERVE_FUNDING_AMOUNT } from "../constants/xrpl";
+import { Client, Payment, Transaction, TxResponse, Wallet, dropsToXrp, xrpToDrops } from "xrpl";
+import { CONFIEL_SOURCE_TAG, RESERVE_FUNDING_AMOUNT } from "../constants/xrpl";
+import { PaymentOrder } from "../stores/PaymentOrder";
+import { bufferToHex, str2ab } from "../helpers/buffers";
 
 export type BalanceResponse = {
   status: 'ok' | 'err'
@@ -34,6 +36,28 @@ export const requestFundsFromFaucet = async (address: string) => {
     "mode": "cors",
     "credentials": "omit"
   });
+}
+
+export const xrpldSubmitTransaction = async (xrpClient: Client, credential: Credential, paymentOrder: PaymentOrder, wallet: Wallet, recipientAddress: string): Promise<TxResponse<Transaction>> => {
+  const transactionPayment: Payment = {
+    "TransactionType": "Payment",
+    "Account": wallet.address,
+    "Amount": xrpToDrops(paymentOrder.amount),
+    "Destination": recipientAddress,
+    "SourceTag": CONFIEL_SOURCE_TAG,
+    "Memos": [
+      {
+        "Memo": {
+          "MemoType": bufferToHex(str2ab(credential.sign(credential.rfc() + recipientAddress))),
+          "MemoData": bufferToHex(str2ab("conFIEL Signature [credential.sign(rfc + recipientAddress)]"))
+        }
+      }
+    ]
+  }
+  const prepared = await xrpClient.autofill(transactionPayment);
+  const signed = wallet.sign(prepared)
+  const tx = await xrpClient.submitAndWait(signed.tx_blob)
+  return tx;
 }
 
 export const xrpldGetBalance = async (xrpClient: Client, address: string, noReserve?: boolean): Promise<BalanceResponse> => {
