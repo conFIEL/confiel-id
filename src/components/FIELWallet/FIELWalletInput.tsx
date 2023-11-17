@@ -1,9 +1,11 @@
+import { StarIcon } from "@chakra-ui/icons";
 import {
   Flex,
   FormControl,
   FormHelperText,
   FormLabel,
   HStack,
+  IconButton,
   Input,
   PinInput,
   PinInputField,
@@ -17,11 +19,11 @@ export const FIELWalletInput = ({
   setPin,
   setCanGenerateWallet,
 }: {
-  email: string,
-  rfc: string,
-  pin: string,
-  setPin: (pin: string) => void,
-  setCanGenerateWallet: (canGenerateWallet: boolean) => void,
+  email: string;
+  rfc: string;
+  pin: string;
+  setPin: (pin: string) => void;
+  setCanGenerateWallet: (canGenerateWallet: boolean) => void;
 }) => {
   useEffect(() => {
     setCanGenerateWallet(false);
@@ -32,9 +34,7 @@ export const FIELWalletInput = ({
       <FormControl>
         <FormLabel>RFC</FormLabel>
         <Input type="text" disabled value={rfc} />
-        <FormHelperText>
-          Your RFC is your unique serial number.
-        </FormHelperText>
+        <FormHelperText>Your RFC is your unique serial number.</FormHelperText>
       </FormControl>
       <FormControl>
         <FormLabel>Email address</FormLabel>
@@ -54,6 +54,12 @@ export const FIELWalletInput = ({
             <PinInputField />
             <PinInputField />
           </PinInput>
+          <IconButton
+            icon={<StarIcon />}
+            aria-label="Default Pin"
+            colorScheme={"gray"}
+            onClick={() => setPin('123456')}
+          />
         </HStack>
         <FormHelperText>
           Your pin is used to derive a unique wallet and can not be changed.
