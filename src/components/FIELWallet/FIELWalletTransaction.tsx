@@ -52,7 +52,7 @@ export const FIELWalletTransaction = () => {
   };
 
   return (
-    <Flex flexDir={"column"}>
+    paymentOrder ? <Flex flexDir={"column"}>
       <Card>
         <CardBody>
           <Text fontSize={"xs"} mb="5" fontWeight={"900"}>
@@ -92,6 +92,6 @@ export const FIELWalletTransaction = () => {
           </Flex>
         </CardBody>
       </Card>
-    </Flex>
+    </Flex> : <Text mt="10" fontSize={'xs'}>No payment orders in the system.</Text>
   );
 };
